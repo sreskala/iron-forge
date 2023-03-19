@@ -14,9 +14,11 @@ import { Main } from '../components/Main'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
+import Navbar from '../components/Navbar'
 
 const Index = () => (
   <Container height="100vh">
+    <Navbar />
     <Hero />
     <Main>
       <Text color="text">

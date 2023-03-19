@@ -22,16 +22,22 @@ mutation Register($registrationInput: UserNamePasswordInput!) {
 `
 
 const Register: FC<RegisterProps> = ({}) => {
-    const [register, { data, loading, error }] = useRegisterMutation({
-        variables: {
-            registrationInput: { username: 'ds', password: 'sd'}
-        }
-    })
+    const [_,register] = useRegisterMutation()
     return (
         <Wrapper>
         <Formik
         initialValues={{ username: "", password: "" }}
-        onSubmit={(values) => register()}
+        onSubmit={
+            async (values, { setErrors }) => {
+                const response = await register({registrationInput: { username: values.username, password: values.password }})
+
+                if (response.data.register.errors) {
+                    setErrors({
+                        username: 'Hey Im an error'
+                    })
+                }
+            }
+        }
         >
             {({values, handleChange, isSubmitting}) => (
                 <Form>

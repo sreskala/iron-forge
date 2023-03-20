@@ -1,8 +1,9 @@
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { useMeQuery } from "../generated/graphql";
+import { useMeQuery, useLogoutMutation } from "../generated/graphql";
 import NextLink from "next/link";
 import { DarkModeSwitch } from "./DarkModeSwitch";
+import { on } from "events";
 
 const UnauthenticatedRoutes = () => {
     return(
@@ -21,21 +22,20 @@ const UnauthenticatedRoutes = () => {
 
 interface UserNameProps {
     username: string;
+    onLogout: () => void;
+    isLoading: boolean
 }
 
-const UserName: FC<UserNameProps> = ({ username }) => (    
+const UserName: FC<UserNameProps> = ({ username, onLogout, isLoading }) => (    
     <>
         <Text>{username}</Text>
-        <NextLink href="/logout">
-            <Link mr={2} href="/logout">
-                Logout
-            </Link>
-        </NextLink>
+        <Button isLoading={isLoading} isDisabled={isLoading} variant={"link"} onClick={onLogout}>Logout</Button>
     </>
 )
 
 const Navbar = () => {
   const [{ data, fetching, error }] = useMeQuery();
+  const [{ fetching: logoutFetching },logout] = useLogoutMutation()
 
   return (
     <Flex bg="olive" p={4} position="fixed" width={"100%"}>
@@ -43,7 +43,7 @@ const Navbar = () => {
         
       <Box ml={"auto"}>
         {fetching ? null : data.me ? (
-          <UserName username={data.me.userName}/>
+          <UserName username={data.me.userName} onLogout={() => logout(null)} isLoading={logoutFetching}/>
         ) : (<UnauthenticatedRoutes />)}
       </Box>
     </Flex>

@@ -7,6 +7,7 @@ import InputField from '../components/form/InputField';
 import { useLoginMutation, useRegisterMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
+import Navbar from '../components/Navbar';
 
 interface LoginProps {
 

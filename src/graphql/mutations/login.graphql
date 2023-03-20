@@ -5,9 +5,7 @@ mutation Login($loginInput: UserNamePasswordInput!) {
       message
     }
     user {
-      id
-      createdAt
-      userName
+      ...BaseUser
     }
   }
 }

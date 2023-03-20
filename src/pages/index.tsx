@@ -7,6 +7,7 @@ import {
   ListItem,
 } from '@chakra-ui/react'
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+import { withUrqlClient } from 'next-urql';
 
 import { Hero } from '../components/Hero'
 import { Container } from '../components/Container'
@@ -15,6 +16,7 @@ import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
 import Navbar from '../components/Navbar'
+import { createUrqlClient } from '../utils/createUrqlClient';
 
 const Index = () => (
   <>
@@ -55,4 +57,4 @@ const Index = () => (
   </>
 )
 
-export default Index
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);

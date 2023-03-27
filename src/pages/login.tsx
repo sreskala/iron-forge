@@ -21,13 +21,13 @@ const Login: FC<LoginProps> = ({}) => {
     return (
         <Wrapper>
         <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ usernameOrEmail: "", password: "" }}
         onSubmit={
             async (values, { setErrors }) => {
-                const response = await login({loginInput: { username: values.username, password: values.password }})
+                const response = await login({ usernameOrEmail: values.usernameOrEmail, password: values.password })
 
                 if (response.data.login.errors) {
-                    const mappedErrors = toErrorMap(['username', 'password'], response.data.login.errors)
+                    const mappedErrors = toErrorMap(['usernameOrEmail', 'password'], response.data.login.errors)
                     setErrors(mappedErrors)
                 } else if (response.data.login.user) {
                     //We got a user
@@ -39,7 +39,7 @@ const Login: FC<LoginProps> = ({}) => {
         >
             {({values, handleChange, isSubmitting}) => (
                 <Form>
-                    <InputField name="username" label='User Name' placeholder='bobthebuilder'/>
+                    <InputField name="usernameOrEmail" label='User Name or Email' placeholder='bobthebuilder'/>
                     <InputField name='password' label='Password' placeholder='password' type='password' />
                     <Button type='submit' mt={4} variant="ghost" isLoading={isSubmitting}>Login</Button>
                 {/* <FormControl>

@@ -38,7 +38,8 @@ export type MutationCreateWorkoutArgs = {
 
 
 export type MutationLoginArgs = {
-  loginInput: UserNamePasswordInput;
+  password: Scalars['String'];
+  usernameOrEmail: Scalars['String'];
 };
 
 
@@ -68,12 +69,14 @@ export type QueryWorkoutArgs = {
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['String'];
+  email: Scalars['String'];
   id: Scalars['Float'];
   updatedAt: Scalars['String'];
   userName: Scalars['String'];
 };
 
 export type UserNamePasswordInput = {
+  email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
 };
@@ -91,14 +94,15 @@ export type Workout = {
   type: Scalars['String'];
 };
 
-export type BaseUserFragment = { __typename?: 'User', id: number, userName: string, createdAt: string, updatedAt: string };
+export type BaseUserFragment = { __typename?: 'User', id: number, userName: string, email: string, createdAt: string, updatedAt: string };
 
 export type LoginMutationVariables = Exact<{
-  loginInput: UserNamePasswordInput;
+  usernameOrEmail: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, userName: string, createdAt: string, updatedAt: string } | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, userName: string, email: string, createdAt: string, updatedAt: string } | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -110,24 +114,25 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, userName: string, createdAt: string, updatedAt: string } | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', id: number, userName: string, email: string, createdAt: string, updatedAt: string } | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, userName: string, createdAt: string, updatedAt: string } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, userName: string, email: string, createdAt: string, updatedAt: string } | null };
 
 export const BaseUserFragmentDoc = gql`
     fragment BaseUser on User {
   id
   userName
+  email
   createdAt
   updatedAt
 }
     `;
 export const LoginDocument = gql`
-    mutation Login($loginInput: UserNamePasswordInput!) {
-  login(loginInput: $loginInput) {
+    mutation Login($usernameOrEmail: String!, $password: String!) {
+  login(usernameOrEmail: $usernameOrEmail, password: $password) {
     errors {
       field
       message

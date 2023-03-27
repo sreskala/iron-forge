@@ -1,6 +1,7 @@
 fragment BaseUser on User {
     id
     userName
+    email
     createdAt
     updatedAt
 }

@@ -21,13 +21,13 @@ const Register: FC<RegisterProps> = ({}) => {
     return (
         <Wrapper>
         <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ username: "", password: "", email: "" }}
         onSubmit={
             async (values, { setErrors }) => {
-                const response = await register({registrationInput: { username: values.username, password: values.password }})
+                const response = await register({registrationInput: { username: values.username, email: values.email, password: values.password }})
 
                 if (response.data.register.errors) {
-                    const mappedErrors = toErrorMap(['username', 'password'], response.data.register.errors)
+                    const mappedErrors = toErrorMap(['username', 'password', 'email'], response.data.register.errors)
                     setErrors(mappedErrors)
                 } else if (response.data.register.user) {
                     //We got a user
@@ -39,7 +39,9 @@ const Register: FC<RegisterProps> = ({}) => {
             {({values, handleChange, isSubmitting}) => (
                 <Form>
                     <InputField name="username" label='User Name' placeholder='bobthebuilder'/>
+                    <InputField name='email' label='Email' type='email' placeholder='bob@builder.com'/>
                     <InputField name='password' label='Password' placeholder='password' type='password' />
+                    <InputField name='password_check' label='Confirm Password' type='password' placeholder='password'/>
                     <Button type='submit' mt={4} variant="ghost" isLoading={isSubmitting}>Register</Button>
                 {/* <FormControl>
                     <FormLabel htmlFor='username'>Username</FormLabel>

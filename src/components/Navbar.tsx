@@ -43,16 +43,17 @@ const UserName: FC<UserNameProps> = ({ username, onLogout, isLoading }) => (
 
 const Navbar = () => {
   const [{ data, fetching, error }] = useMeQuery({
-    pause: isServer()
+    pause: isServer(),
   });
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
+  const loadingMe = !data || fetching;
 
   return (
     <Flex bg="olive" p={4} position="fixed" width={"100%"}>
       <DarkModeSwitch />
 
       <Box ml={"auto"}>
-        {fetching ? null : data.me ? (
+        {loadingMe ? null : data.me ? (
           <UserName
             username={data.me.userName}
             onLogout={() => logout(null)}
